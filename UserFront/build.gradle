@@ -29,5 +29,11 @@ repositories {
 dependencies {
 	compile('org.springframework.boot:spring-boot-starter-web')
 	compile('org.springframework.boot:spring-boot-starter-thymeleaf')
+	compile('org.springframework.boot:spring-boot-starter-jdbc')
+	compile('org.springframework.boot:spring-boot-starter-data-jpa')
+
+	runtime('org.postgresql:postgresql')
+
+	testCompile('info.cukes:cucumber-java8:1.2.5')
 	testCompile('org.springframework.boot:spring-boot-starter-test')
 }

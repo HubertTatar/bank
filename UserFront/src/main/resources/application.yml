@@ -1,0 +1,19 @@
+spring:
+  datasource:
+    minimumIdle: 20
+    maximumPoolSize: 30
+    idleTimeout: 5000
+    dataSourceClassName: org.postgresql.ds.PGSimpleDataSource
+    databaseName: postgres
+    serverName: postgres
+    url: jdbc:postgresql://localhost:5432/bank
+    username: postgres
+    password: postgres
+  jpa:
+    hibernate:
+      ddl-auto: create-drop
+    show-sql: true
+jpa:
+  properties:
+    hibernate:
+      dialect=org.hibernate.dialect.PostgreSQL95Dialect

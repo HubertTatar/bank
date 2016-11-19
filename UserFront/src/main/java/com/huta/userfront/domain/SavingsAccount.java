@@ -1,12 +1,21 @@
 package com.huta.userfront.domain;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.List;
 
+@Entity
+@Table(name = "savings_accounts")
 public class SavingsAccount {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Long accountNumber;
     private BigDecimal accountBalance;
+    @OneToMany(mappedBy = "savingsAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<SavingsTransaction> primaryTransactionList;
 
     public SavingsAccount() {

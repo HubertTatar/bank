@@ -1,22 +1,45 @@
 package com.huta.userfront.domain;
 
-import java.util.List;
+import com.fasterxml.jackson.annotation.JsonIgnore;
+import com.huta.userfront.domain.security.UserRole;
 
+import javax.persistence.*;
+import java.util.HashSet;
+import java.util.List;
+import java.util.Set;
+
+@Entity
+@Table(name = "users")
 public class User {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
+    @Column(name = "user_id", nullable = false, updatable = false)
     private Long userId;
-    private String useranme;
+    private String username;
     private String password;
-    private String fristname;
-    private String lastname;
+    private String firstName;
+    private String lastName;
+    @Column(name="email", nullable = false, unique = true)
     private String email;
     private String phone;
 
     private boolean enabled = true;
 
+    @OneToOne
     private PrimaryAccount primaryAccount;
+    @OneToOne
     private SavingsAccount savingsAccount;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Appointment> appointmentList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
+    @JsonIgnore
     private List<Recipient> recipientList;
+    @OneToMany(mappedBy = "user", cascade = CascadeType.ALL, fetch = FetchType.EAGER)
+    @JsonIgnore
+    private Set<UserRole> userRoles = new HashSet<>();
+
+    public User(){}
 
     public Long getUserId() {
         return userId;
@@ -26,12 +49,12 @@ public class User {
         this.userId = userId;
     }
 
-    public String getUseranme() {
-        return useranme;
+    public String getUsername() {
+        return username;
     }
 
-    public void setUseranme(String useranme) {
-        this.useranme = useranme;
+    public void setUsername(String username) {
+        this.username = username;
     }
 
     public String getPassword() {
@@ -42,20 +65,20 @@ public class User {
         this.password = password;
     }
 
-    public String getFristname() {
-        return fristname;
+    public String getFirstName() {
+        return firstName;
     }
 
-    public void setFristname(String fristname) {
-        this.fristname = fristname;
+    public void setFirstName(String firstName) {
+        this.firstName = firstName;
     }
 
-    public String getLastname() {
-        return lastname;
+    public String getLastName() {
+        return lastName;
     }
 
-    public void setLastname(String lastname) {
-        this.lastname = lastname;
+    public void setLastName(String lastName) {
+        this.lastName = lastName;
     }
 
     public String getEmail() {
@@ -118,10 +141,10 @@ public class User {
     public String toString() {
         return "User{" +
                 "userId=" + userId +
-                ", useranme='" + useranme + '\'' +
+                ", username='" + username + '\'' +
                 ", password='" + password + '\'' +
-                ", fristname='" + fristname + '\'' +
-                ", lastname='" + lastname + '\'' +
+                ", firstName='" + firstName + '\'' +
+                ", lastName='" + lastName + '\'' +
                 ", email='" + email + '\'' +
                 ", phone='" + phone + '\'' +
                 ", enabled=" + enabled +

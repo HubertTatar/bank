@@ -1,18 +1,25 @@
 package com.huta.userfront.domain;
 
+import javax.persistence.*;
 import java.util.Date;
 
-/**
- * Created by huta on 19.11.2016.
- */
+@Entity
+@Table(name = "appointments")
 public class Appointment {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date date;
     private String location;
     private String description;
     private boolean confirmed;
 
+    @ManyToOne
+    @JoinColumn(name = "user_id")
     private User user;
+
+    public Appointment() {
+    }
 
     public Long getId() {
         return id;

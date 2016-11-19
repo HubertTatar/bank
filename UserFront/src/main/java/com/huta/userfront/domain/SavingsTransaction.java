@@ -1,9 +1,14 @@
 package com.huta.userfront.domain;
 
+import javax.persistence.*;
 import java.math.BigDecimal;
 import java.util.Date;
 
+@Entity
+@Table(name = "savings_transactions")
 public class SavingsTransaction {
+    @Id
+    @GeneratedValue(strategy = GenerationType.AUTO)
     private Long id;
     private Date date;
     private String description;
@@ -11,7 +16,11 @@ public class SavingsTransaction {
     private String status;
     private double amount;
     private BigDecimal availableBalance;
+    @ManyToOne
+    @JoinColumn(name = "savings_account_id")
     private SavingsAccount savingsAccount;
+
+    public SavingsTransaction(){}
 
     public SavingsTransaction(Date date, String description, String type, String status, double amount, BigDecimal availableBalance, SavingsAccount savingsAccount) {
         this.date = date;
