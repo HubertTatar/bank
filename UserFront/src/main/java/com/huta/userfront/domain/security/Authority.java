@@ -1,6 +1,8 @@
 package com.huta.userfront.domain.security;
 
-public class Authority { //implements GrantedAuthority {
+import org.springframework.security.core.GrantedAuthority;
+
+public class Authority implements GrantedAuthority {
 
     private final String authority;
 
@@ -8,7 +10,7 @@ public class Authority { //implements GrantedAuthority {
         this.authority = authority;
     }
 
-    //@Override
+    @Override
     public String getAuthority() {
         return authority;
     }

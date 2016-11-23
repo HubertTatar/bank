@@ -1,5 +1,8 @@
 package com.huta.userfront.controller;
 
+import com.huta.userfront.dao.RoleDao;
+import com.huta.userfront.domain.PrimaryAccount;
+import com.huta.userfront.domain.SavingsAccount;
 import com.huta.userfront.domain.User;
 import com.huta.userfront.domain.security.UserRole;
 import com.huta.userfront.service.UserService;
@@ -11,6 +14,7 @@ import org.springframework.web.bind.annotation.ModelAttribute;
 import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
+import java.security.Principal;
 import java.util.HashSet;
 import java.util.Set;
 
@@ -18,7 +22,10 @@ import java.util.Set;
 public class HomeController {
 
     @Autowired
-    UserService userService;
+    private UserService userService;
+    @Autowired
+    private RoleDao roleDao;
+
 
     @RequestMapping(value = "/", method = RequestMethod.GET)
     public String home() {
@@ -50,8 +57,22 @@ public class HomeController {
 
             return "signup";
         } else {
-            userService.save(user);
+            Set<UserRole> userRoles = new HashSet<>();
+            userRoles.add(new UserRole(user, roleDao.findByName("USER")));
+            userService.create(user, userRoles);
             return "redirect:/";
         }
+    }
+
+    //@RequestMapping("/userFront")
+    public String userFront(Principal principal, Model model) {
+        User user = userService.findByUsername(principal.getName());
+        PrimaryAccount primaryAccount = user.getPrimaryAccount();
+        SavingsAccount savingsAccount = user.getSavingsAccount();
+
+        model.addAttribute("primaryAccount", primaryAccount);
+        model.addAttribute("savingsAccount", savingsAccount);
+
+        return "userFront";
     }
 }
