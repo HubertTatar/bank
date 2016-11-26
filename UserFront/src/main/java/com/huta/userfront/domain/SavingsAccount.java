@@ -16,7 +16,7 @@ public class SavingsAccount {
     private BigDecimal accountBalance;
     @OneToMany(mappedBy = "savingsAccount", cascade = CascadeType.ALL, fetch = FetchType.LAZY)
     @JsonIgnore
-    private List<SavingsTransaction> primaryTransactionList;
+    private List<SavingsTransaction> savingsTransactionList;
 
     public SavingsAccount() {
     }
@@ -45,12 +45,12 @@ public class SavingsAccount {
         this.accountBalance = accountBalance;
     }
 
-    public List<SavingsTransaction> getPrimaryTransactionList() {
-        return primaryTransactionList;
+    public List<SavingsTransaction> getSavingsTransactionList() {
+        return savingsTransactionList;
     }
 
-    public void setPrimaryTransactionList(List<SavingsTransaction> primaryTransactionList) {
-        this.primaryTransactionList = primaryTransactionList;
+    public void setSavingsTransactionList(List<SavingsTransaction> savingsTransactionList) {
+        this.savingsTransactionList = savingsTransactionList;
     }
 
     @Override
@@ -75,7 +75,7 @@ public class SavingsAccount {
                 "id=" + id +
                 ", accountNumber=" + accountNumber +
                 ", accountBalance=" + accountBalance +
-                ", primaryTransactionList=" + primaryTransactionList +
+                ", savingsTransactionList=" + savingsTransactionList +
                 '}';
     }
 }
