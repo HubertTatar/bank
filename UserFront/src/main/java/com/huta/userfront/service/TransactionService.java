@@ -16,6 +16,7 @@ public interface TransactionService {
     void saveSavingsDepositTransaction(SavingsTransaction savingsTransaction);
     
     void savePrimaryWithdrawTransaction(PrimaryTransaction primaryTransaction);
+
     void saveSavingsWithdrawTransaction(SavingsTransaction savingsTransaction);
     
     void betweenAccountsTransfer(String transferFrom, String transferTo, String amount, PrimaryAccount primaryAccount, SavingsAccount savingsAccount) throws Exception;

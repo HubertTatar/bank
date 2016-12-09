@@ -1,9 +1,8 @@
 package com.huta.userfront.controller;
 
-import com.huta.userfront.domain.PrimaryAccount;
-import com.huta.userfront.domain.SavingsAccount;
-import com.huta.userfront.domain.User;
+import com.huta.userfront.domain.*;
 import com.huta.userfront.service.AccountService;
+import com.huta.userfront.service.TransactionService;
 import com.huta.userfront.service.UserService;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -13,6 +12,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RequestMethod;
 
 import java.security.Principal;
+import java.util.List;
 
 @Controller
 @RequestMapping("/account")
@@ -22,20 +22,29 @@ public class AccountController {
     UserService userService;
     @Autowired
     AccountService accountService;
+    @Autowired
+    TransactionService transactionService;
+
 
     @RequestMapping(value ="/primaryAccount", method = RequestMethod.GET)
     public String primaryAccount(Model model, Principal principal) {
+        List<PrimaryTransaction> primaryTransactionList = transactionService.findPrimaryTransactionList(principal.getName());
         User user = userService.findByUsername(principal.getName());
         PrimaryAccount primaryAccount = user.getPrimaryAccount();
+
+        model.addAttribute("primaryTransactionList", primaryTransactionList);
         model.addAttribute("primaryAccount", primaryAccount);
         return "primaryAccount";
     }
 
     @RequestMapping(value = "/savingsAccount", method = RequestMethod.GET)
     public String savingsAccount(Model model, Principal principal) {
+        List<SavingsTransaction> savingsTransactionList = transactionService.findSavingsTransactionList(principal.getName());
         User user = userService.findByUsername(principal.getName());
         SavingsAccount savingsAccount = user.getSavingsAccount();
+
         model.addAttribute("savingsAccount", savingsAccount);
+        model.addAttribute("savingsTransactionList", savingsTransactionList);
         return "savingsAccount";
     }
 
